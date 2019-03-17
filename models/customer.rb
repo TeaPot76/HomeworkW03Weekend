@@ -48,32 +48,17 @@ class Customer
     return film_data.map{|film| Film.new(film)}
   end
 
-  # def all_movies_cn()
-  #   sql = 'SELECT f.price FROM films f
-  #   INNER JOIN tickets t
-  #   ON t.film_id = f.id
-  #   INNER JOIN customers c
-  #   ON c.id = t.customer_id
-  #   WHERE c.name = $1'
-  #   values = [@name]
-  #   film_data = SqlRunner.run(sql, values)
-  #   p film_data.map{|film| Film.new(film)}
-  #    return film_data.film.price
-  # end
 
-
-  def all_movies_cn()
-    sql = 'SELECT f.price FROM films f
+  def all_movies_total_cust_name(name)
+    sql = 'SELECT SUM(f.price) FROM films f
     INNER JOIN tickets t
     ON t.film_id = f.id
     INNER JOIN customers c
     ON c.id = t.customer_id
-    WHERE c.name = $1'
-    values = [@name]
-    film_data = SqlRunner.run(sql, values)
-     data = film_data.map{|film| Film.new(film)}
-     data[0].price
-   end
+    WHERE c.name= $1'
+    values = [name]
+    return SqlRunner.run(sql, values).first["sum"].to_i
+  end
 
  def buy_ticket(film_name)
   puts "I want to buy ticket for #{film_name} "
@@ -87,18 +72,13 @@ class Customer
   return @funds - price
  end
 
- def tickets_by_id()
-  sql = "SELECT COUNT(customer_id) FROM tickets WHERE customer_id = $1"
-  values = [@id]
-  return SqlRunner.run(sql, values).first['count'].to_i
-end
 
-def tickets_by_name()
+def tickets_by_name(name)
   sql ='SELECT COUNT(customer_id) FROM tickets
   INNER JOIN customers
   ON customers.id = tickets.customer_id
   WHERE customers.name = $1 '
-  values = [@name]
+  values = [name]
   return SqlRunner.run(sql, values).first['count'].to_i
 end
 
