@@ -38,4 +38,24 @@ class Screenings
     return screening_data.map{|screen| Screenings.new(screen)}
   end
 
+  def total_screenings_by_time()
+    sql = 'SELECT screening_time, Count(screening_time)
+    FROM screenings
+    GROUP BY screening_time'
+    p screening_data = SqlRunner.run(sql).first
+    return screening_data['count']
+  end
+
+  def most_popular_time(film_id)
+    sql = 'SELECT COUNT(s.screening_time), s.screening_time FROM films f, screenings s, tickets t
+    WHERE f.id = s.film_id and f.id = t.film_id and t.film_id = $1
+    GROUP BY s.screening_time ORDER BY COUNT(s.screening_time) DESC
+    LIMIT 1'
+    values = [film_id]
+    screening_data = SqlRunner.run(sql, values)
+    return screening_data.first["screening_time"]
+
+  end
+
+
 end

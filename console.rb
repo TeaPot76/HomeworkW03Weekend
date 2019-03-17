@@ -9,7 +9,7 @@ require('pry-byebug')
 film1 = Film.new({'title' => 'Iron Man', 'price' => 20})
 # film1.save
 film2 = Film.new({'title' => 'Thor', 'price' => 21})
-# film2.save
+ # film2.save
 film3 = Film.new({'title' => 'Captain America', 'price' => 18})
 # film3.save
 film4 = Film.new({'title' => 'Avengers', 'price' => 22})
@@ -41,7 +41,7 @@ ticket6 = Ticket.new({'customer_id' => customer4.id, 'film_id' => film4.id})
 screenings1 = Screenings.new({'screening_time' => '19.15', 'film_id' => film4.id})
 # screenings1.save
 screenings2 = Screenings.new({'screening_time' => '21.15', 'film_id' => film3.id})
-# screenings2.save
+ # screenings2.save
 screenings3 = Screenings.new({'screening_time' => '17.15', 'film_id' => film3.id})
 # screenings3.save
 
