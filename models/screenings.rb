@@ -57,5 +57,28 @@ class Screenings
 
   end
 
+  def number_of_tickets(id)
+    sql = 'SELECT s.*, COUNT(t.film_id) AS number_of_tickets
+      FROM screenings s
+      LEFT JOIN tickets t
+      ON s.id = t.film_id
+      WHERE s.film_id = $1
+      GROUP BY s.id
+      ORDER BY number_of_tickets DESC'
+      values = [id]
+      result = SqlRunner.run(sql, values).first
+      p Ticket.new(result)
+      return result['number_of_tickets'].to_i
+
+    end
+
+    def max_number_of_tickets(id)
+      max_number_of_tickets = []
+      result = number_of_tickets(id)
+      max_number = result.reduce{|x| (x+x) <= 50}
+      return max_number
+    end
+
+
 
 end

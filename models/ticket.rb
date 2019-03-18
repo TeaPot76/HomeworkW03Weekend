@@ -37,7 +37,6 @@ def self.all()
   return ticket_data.map{|ticket| Ticket.new(ticket)}
 end
 
-  
 
 
 end
